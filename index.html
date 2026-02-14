@@ -4,151 +4,296 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestão do Tempo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        :root {
+            --primary: #0078d4;
+            --primary-light: #f0f7ff;
+            --card-bg: #ffffff;
+            --border: #e0e6ed;
+            --text: #333333;
         }
         
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--text);
             line-height: 1.6;
             padding: 20px;
+            min-height: 100vh;
         }
         
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-        }
-        
-        h1 {
-            color: #0078d4;
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-        }
-        
-        .subtitle {
-            color: #555;
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
+        .container {
             max-width: 1400px;
             margin: 0 auto;
         }
         
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 3.2rem;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: #555;
+            font-size: 1.3rem;
+            max-width: 750px;
+            margin: 0 auto;
+            font-weight: 500;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+        
         .card {
-            background: white;
-            border-radius: 12px;
-            border: 1px solid #e0e6ed;
-            padding: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
+            background: var(--card-bg);
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            padding: 28px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
         
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0, 120, 212, 0.15);
+            border-color: rgba(0, 120, 212, 0.3);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
         }
         
         .card h2 {
-            color: #0078d4;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
+            color: var(--primary);
+            font-size: 1.7rem;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-weight: 600;
         }
         
-        .card p {
-            margin: 12px 0;
-            color: #444;
-        }
-        
-        .highlight {
-            background-color: #f0f7ff;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            border-left: 4px solid #0078d4;
+        .card h2 i {
+            font-size: 1.8rem;
         }
         
         .eisenhower-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 15px 0;
+            gap: 12px;
+            margin: 20px 0;
+            border: 1px solid #e0e6ed;
+            border-radius: 10px;
+            overflow: hidden;
         }
         
         .grid-header {
             grid-column: span 2;
             text-align: center;
-            font-weight: bold;
-            padding: 8px;
-            background: #eef7ff;
-            border-radius: 6px;
+            font-weight: 600;
+            padding: 12px;
+            background: #f8fafd;
+            font-size: 1.1rem;
+            color: #4a658c;
         }
         
         .grid-cell {
-            padding: 12px;
+            padding: 16px;
             text-align: center;
-            border-radius: 6px;
-            background: #f8f9fa;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-radius: 8px;
+        }
+        
+        .grid-cell:nth-child(3) {
+            background: #eef7ff;
+        }
+        
+        .grid-cell:nth-child(4) {
+            background: #eef7ff;
         }
         
         .regla-2min {
             text-align: center;
-            font-size: 4rem;
-            font-weight: bold;
-            color: #0078d4;
-            margin: 15px 0;
+            font-size: 5.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+            margin: 25px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .regla-2min span {
+            font-size: 2.2rem;
+            display: block;
+            margin-top: 10px;
+            color: #555;
+            font-weight: normal;
         }
         
         .method-45-15 {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin: 15px 0;
+            gap: 15px;
+            margin: 20px 0;
         }
         
         .clock {
-            font-size: 2.5rem;
-            color: #0078d4;
+            font-size: 3rem;
+            color: var(--primary);
         }
         
         .time-block {
             display: flex;
             flex-direction: column;
-            background: #f0f7ff;
-            border-radius: 8px;
-            padding: 10px;
-            margin: 15px 0;
+            background: var(--primary-light);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
         }
         
         .time-slot {
             background: white;
-            padding: 8px;
-            border-radius: 6px;
-            margin: 5px 0;
-            border-left: 4px solid #0078d4;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+            border-left: 4px solid var(--primary);
+            font-weight: 500;
+        }
+        
+        .highlight {
+            background-color: var(--primary-light);
+            padding: 18px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .highlight p {
+            margin: 0;
+            font-weight: 500;
         }
         
         .ai-icon {
             text-align: center;
-            font-size: 2.5rem;
-            margin: 15px 0;
-            color: #0078d4;
+            font-size: 3rem;
+            margin: 20px 0;
+            color: var(--primary);
+        }
+        
+        .technique-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-right: 12px;
+        }
+        
+        /* Fidelidade à imagem */
+        .eisenhower-grid .grid-cell:nth-child(3),
+        .eisenhower-grid .grid-cell:nth-child(4) {
+            background: #eef7ff !important;
+        }
+        
+        .eisenhower-grid .grid-cell:nth-child(1) {
+            background: #d6eaff;
+        }
+        
+        .eisenhower-grid .grid-cell:nth-child(2) {
+            background: #d6eaff;
+        }
+        
+        .regla-2min {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e4edf5 100%);
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .regla-2min::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            box-sizing: border-box;
+            animation: spin 10s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Botões de ação */
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
         }
         
         @media (max-width: 768px) {
@@ -157,123 +302,169 @@
             }
             
             h1 {
-                font-size: 2.2rem;
+                font-size: 2.4rem;
             }
+            
+            .regla-2min {
+                font-size: 3.5rem;
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
+            font-size: 0.9rem;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Gestão do Tempo</h1>
-        <p class="subtitle">Técnicas comprovadas para aumentar a produtividade</p>
-    </header>
+    <div class="container">
+        <header>
+            <h1>Gestão do Tempo</h1>
+            <p class="subtitle">Técnicas comprovadas para aumentar a produtividade</p>
+        </header>
 
-    <main class="grid-container">
-        <!-- Matriz de Eisenhower -->
-        <div class="card">
-            <h2>Matriz de Eisenhower</h2>
-            <div class="eisenhower-grid">
-                <div class="grid-header">Urgente</div>
-                <div class="grid-header">Não urgente</div>
-                <div class="grid-cell">Fazer</div>
-                <div class="grid-cell">Agendar</div>
-                <div class="grid-cell">Delegar</div>
-                <div class="grid-cell">Deletar</div>
-            </div>
-            <p>Uma técnica que ajuda a priorizar tarefas por urgência e importância, para que você foque no que realmente importa.</p>
-            <div class="highlight">
-                <strong>Ideal para:</strong> quando tudo parece urgente e você está sobrecarregado por prioridades conflitantes.
-            </div>
-        </div>
-
-        <!-- Regra dos 2 Minutos -->
-        <div class="card">
-            <h2>Regra dos 2 Minutos</h2>
-            <div class="regla-2min">2 MIN</div>
-            <p>Se uma tarefa leva menos de 2 minutos para ser concluída, faça imediatamente, não deixe acumular.</p>
-            <div class="highlight">
-                <strong>Ideal para:</strong> vencer a procrastinação e evitar que pequenas tarefas virem grandes distrações.
-            </div>
-        </div>
-
-        <!-- Método 45/15 -->
-        <div class="card">
-            <h2>Método 45/15</h2>
-            <div class="method-45-15">
-                <div class="clock">⏰</div>
-                <div>
-                    <p>Trabalhe por 45 minutos, descanse 15. Repita.</p>
+        <main class="grid-container">
+            <!-- Matriz de Eisenhower -->
+            <div class="card">
+                <h2><i class="fas fa-th-large"></i> Matriz de Eisenhower</h2>
+                <div class="eisenhower-grid">
+                    <div class="grid-header">Urgente</div>
+                    <div class="grid-header">Não urgente</div>
+                    <div class="grid-cell">Fazer</div>
+                    <div class="grid-cell">Agendar</div>
+                    <div class="grid-cell">Delegar</div>
+                    <div class="grid-cell">Deletar</div>
+                </div>
+                <p>Uma técnica que ajuda a priorizar tarefas por urgência e importância, para que você foque no que realmente importa.</p>
+                <div class="highlight">
+                    <p><strong>Ideal para:</strong> quando tudo parece urgente e você está sobrecarregado por prioridades conflitantes.</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-primary">Como Aplicar</button>
+                    <button class="btn btn-outline">Exemplo</button>
                 </div>
             </div>
-            <div class="highlight">
-                <strong>Ideal para:</strong> manter energia e foco profundo ao longo do dia.
-            </div>
-        </div>
 
-        <!-- Detox Digital -->
-        <div class="card">
-            <h2>Detox Digital</h2>
-            <p>❌ Faça uma pausa das telas para descansar a mente e recuperar o foco.</p>
-            <div class="highlight">
-                <strong>Ideal para:</strong> reduzir o estresse e recuperar clareza.
+            <!-- Regra dos 2 Minutos -->
+            <div class="card">
+                <h2><i class="fas fa-hourglass-half"></i> Regra dos 2 Minutos</h2>
+                <div class="regla-2min">2<span>MIN</span></div>
+                <p>Se uma tarefa leva menos de 2 minutos para ser concluída, faça imediatamente, não deixe acumular.</p>
+                <div class="highlight">
+                    <p><strong>Ideal para:</strong> vencer a procrastinação e evitar que pequenas tarefas virem grandes distrações.</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-primary">Teste Agora</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Coma o Sapo -->
-        <div class="card">
-            <h2>Coma o Sapo</h2>
-            <p>🐸 Comece o dia com a tarefa mais difícil e importante.</p>
-            <div class="highlight">
-                <strong>Ideal para:</strong> vencer a procrastinação e ganhar impulso logo cedo.
+            <!-- Método 45/15 -->
+            <div class="card">
+                <h2><i class="fas fa-clock"></i> Método 45/15</h2>
+                <div class="method-45-15">
+                    <div class="clock">⏰</div>
+                    <div>
+                        <p>Trabalhe por 45 minutos, descanse 15. Repita.</p>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <p><strong>Ideal para:</strong> manter energia e foco profundo ao longo do dia.</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-primary">Começar Timer</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Bloqueio de Tempo -->
-        <div class="card">
-            <h2>Bloqueio de Tempo</h2>
-            <div class="time-block">
-                <div class="time-slot">8 AM</div>
-                <div class="time-slot">9 AM</div>
-                <div class="time-slot" style="background: #0078d4; color: white;">10 AM</div>
-                <div class="time-slot">11 AM</div>
-                <div class="time-slot">12 PM</div>
-                <div class="time-slot">1 PM</div>
-                <div class="time-slot">2 PM</div>
+            <!-- Detox Digital -->
+            <div class="card">
+                <h2><i class="fas fa-mobile-slash"></i> Detox Digital</h2>
+                <p>❌ Faça uma pausa das telas para descansar a mente e recuperar o foco.</p>
+                <div class="highlight">
+                    <p><strong>Ideal para:</strong> reduzir o estresse e recuperar clareza.</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-primary">Plano Diário</button>
+                </div>
             </div>
-            <p>Divida o seu dia em blocos de tempo, cada um dedicado a uma tarefa ou tipo de trabalho específico.</p>
-            <div class="highlight">
-                <strong>Ideal para:</strong> criar estrutura, minimizar distrações e garantir tempo para o que importa.
-            </div>
-        </div>
 
-        <!-- Método 3/3/3 -->
-        <div class="card">
-            <h2>Método 3/3/3</h2>
-            <p>3 tarefas, durante 3 horas, permitindo 3 distrações.</p>
-            <div class="highlight">
-                <strong>Ideal para:</strong> manter-se produtivo sem se esgotar.
+            <!-- Coma o Sapo -->
+            <div class="card">
+                <h2><i class="fas fa-frog"></i> Coma o Sapo</h2>
+                <p>🐸 Comece o dia com a tarefa mais difícil e importante.</p>
+                <div class="highlight">
+                    <p><strong>Ideal para:</strong> vencer a procrastinação e ganhar impulso logo cedo.</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-primary">Lista de Tarefas</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Agendamento Biológico -->
-        <div class="card">
-            <h2>Agendamento Biológico</h2>
-            <p>🌱 Agende tarefas de acordo com os picos e quedas naturais da sua energia.</p>
-            <div class="highlight">
-                <strong>Ideal para:</strong> trabalhar em sintonia com o ritmo do seu corpo.
+            <!-- Bloqueio de Tempo -->
+            <div class="card">
+                <h2><i class="fas fa-calendar-alt"></i> Bloqueio de Tempo</h2>
+                <div class="time-block">
+                    <div class="time-slot">8 AM</div>
+                    <div class="time-slot">9 AM</div>
+                    <div class="time-slot" style="background: #0078d4; color: white;">10 AM</div>
+                    <div class="time-slot">11 AM</div>
+                    <div class="time-slot">12 PM</div>
+                    <div class="time-slot">1 PM</div>
+                    <div class="time-slot">2 PM</div>
+                </div>
+                <p>Divida o seu dia em blocos de tempo, cada um dedicado a uma tarefa ou tipo de trabalho específico.</p>
+                <div class="highlight">
+                    <p><strong>Ideal para:</strong> criar estrutura, minimizar distrações e garantir tempo para o que importa.</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-primary">Modelo Semanal</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Ferramentas de IA -->
-        <div class="card">
-            <h2>Ferramentas de IA</h2>
-            <div class="ai-icon">🤖</div>
-            <p><strong>Exemplos:</strong> Todoist, Clockwise, Focus@Will, Notion AI, ChatGPT.</p>
-            <p>Use IA para automatizar, priorizar e focar.</p>
-            <div class="highlight">
-                <strong>Ideal para:</strong> economizar tempo e aumentar a produtividade.
+            <!-- Método 3/3/3 -->
+            <div class="card">
+                <h2><i class="fas fa-clipboard-list"></i> Método 3/3/3</h2>
+                <p>3 tarefas, durante 3 horas, permitindo 3 distrações.</p>
+                <div class="highlight">
+                    <p><strong>Ideal para:</strong> manter-se produtivo sem se esgotar.</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-primary">Planilha</button>
+                </div>
             </div>
+
+            <!-- Agendamento Biológico -->
+            <div class="card">
+                <h2><i class="fas fa-dna"></i> Agendamento Biológico</h2>
+                <p>🌱 Agende tarefas de acordo com os picos e quedas naturais da sua energia.</p>
+                <div class="highlight">
+                    <p><strong>Ideal para:</strong> trabalhar em sintonia com o ritmo do seu corpo.</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-primary">Teste de Energia</button>
+                </div>
+            </div>
+
+            <!-- Ferramentas de IA -->
+            <div class="card">
+                <h2><i class="fas fa-robot"></i> Ferramentas de IA</h2>
+                <div class="ai-icon">🤖</div>
+                <p><strong>Exemplos:</strong> Todoist, Clockwise, Focus@Will, Notion AI, ChatGPT.</p>
+                <p>Use IA para automatizar, priorizar e focar.</p>
+                <div class="highlight">
+                    <p><strong>Ideal para:</strong> economizar tempo e aumentar a produtividade.</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-primary">Integrar IA</button>
+                </div>
+            </div>
+        </main>
+
+        <div class="footer">
+            <p>© 2026 Gestão do Tempo | Projeto de Teste com Coolify</p>
         </div>
-    </main>
+    </div>
 </body>
 </html>
